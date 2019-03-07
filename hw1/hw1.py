@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import math
 import csv
 
 def readTrainData(file_name = 'train.csv'):
@@ -43,6 +44,17 @@ def readTestData(file_name = 'test.csv'):
             if data[i][j] == 'NR':
                 data[i][j] = 0
     data = data.astype('float')
+    for i in range(data.shape[0]):
+        for j in range(data.shape[1]):
+            if data[i][j] < 0:
+                if j != data.shape[1] - 1:
+                    if j != 0:
+                        data[i][j] = (data[i][j - 1] + data[i][j + 1]) / 2
+                    else:
+                        data[i][j] = data[i][j + 1]
+                else:
+                    if j != 0:
+                        data[i][j] = data[i][j - 1]
     data = np.vsplit(data, data.shape[0] // 18)
     X = []
     for arr in data:
@@ -65,7 +77,7 @@ def train(x, y):
         grad_sum += grad ** 2
         ada = np.sqrt(grad_sum)
         w = w - lr * grad / ada
-        print("iteration :", format(i, ">10d"), "| cost :", cost)
+        print("iteration :", format(i, ">10d"), "| cost :", math.sqrt(cost))
         if abs(prev_cost - cost) < 0.00001:
             break
         else:
@@ -77,6 +89,7 @@ def train(x, y):
 if __name__ == '__main__':
     train_x, train_y = readTrainData()
     w = train(train_x, train_y)
+    np.save('model.npy', w)
     test_x = readTestData()
     ans = []
     for arr in test_x:
