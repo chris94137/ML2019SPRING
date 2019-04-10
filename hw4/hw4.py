@@ -61,7 +61,7 @@ def plot_jpg(file_name, file, color_bar = False, title = False, title_str = ''):
         cb.remove()
 if __name__ == '__main__':
     path_list = [22, 416, 500, 7, 310, 494, 11]
-    model = load_model("best(0.69155ensemble2).h5")
+    model = load_model("best_0.69155ensemble2.h5")
     x_train, y_train = readTrainData(sys.argv[1])
     images = [x_train[i] for i in path_list]
     y = [y_train[i] for i in path_list]
