@@ -76,12 +76,12 @@ if __name__ == '__main__':
     for i in range(7):
         g = grad[i].reshape((48, 48))
         plot_jpg(out_path + 'fig1_' + str(i) + '.jpg', g, color_bar = True)
-        plt.imsave('fig1_' + str(i) + '.png', g)
-        mask = images[i]
-        max_ = np.max(grad[i])
-        mask[grad[i] < 0.05 * max_] = 0
-        mask = mask.reshape(48, 48)
-        plt.imsave('fig1_' + str(i) + '_mask.png', mask)
+        # plt.imsave('fig1_' + str(i) + '.png', g)
+        # mask = images[i]
+        # max_ = np.max(grad[i])
+        # mask[grad[i] < 0.05 * max_] = 0
+        # mask = mask.reshape(48, 48)
+        # plt.imsave('fig1_' + str(i) + '_mask.png', mask)
     
     # Q2
     images = [x_train[i] for i in path_list]
