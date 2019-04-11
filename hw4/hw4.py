@@ -19,6 +19,7 @@ from lime import lime_image
 from skimage.segmentation import mark_boundaries
 import tensorflow as tf
 import sys
+from skimage.segmentation import slic
 
 out_path = sys.argv[2]
 delete_list = [59, 2059, 2171, 2809]
@@ -59,6 +60,8 @@ def plot_jpg(file_name, file, color_bar = False, title = False, title_str = ''):
     plt.savefig(file_name)
     if color_bar:
         cb.remove()
+def seg_fn(img):
+    return slic(img[:,:,0].astype(np.float64), n_segments = 150, compactness = 0.1)
 if __name__ == '__main__':
     path_list = [22, 416, 500, 7, 310, 494, 11]
     model = load_model("best_0.69155ensemble2.h5")
@@ -126,14 +129,14 @@ if __name__ == '__main__':
     y = [y_train[i] for i in path_list]
     images = np.array(images)
     y = np.array(y)
-    explainer = lime_image.LimeImageExplainer()
+    explainer = lime_image.LimeImageExplainer(random_state=0)
     predict_ = lambda x : np.squeeze(model.predict(x[:, :, :, 0].reshape(-1, 48, 48, 1)))
     for i in range(7):
         image = [images[i]] * 3
         image = np.concatenate(image, axis = 2)
         np.random.seed(16)
-        explanation = explainer.explain_instance(image, predict_, labels=(i, ), top_labels=None, hide_color=0, num_samples=1000)
-        temp, mask = explanation.get_image_and_mask(i, positive_only=True, num_features=1000, hide_rest=True)
+        explanation = explainer.explain_instance(image, predict_, labels=(i, ), top_labels=None, segmentation_fn=seg_fn)
+        temp, mask = explanation.get_image_and_mask(i, positive_only=False, num_features=10, hide_rest=False)
         plt.imsave(out_path + 'fig3_' + str(i) + '.jpg', mark_boundaries(temp / 2 + 0.5, mask))
 
 
