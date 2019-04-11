@@ -139,7 +139,6 @@ if __name__ == '__main__':
         temp, mask = explanation.get_image_and_mask(i, positive_only=False, num_features=10, hide_rest=False)
         plt.imsave(out_path + 'fig3_' + str(i) + '.jpg', mark_boundaries(temp / 2 + 0.5, mask))
 
-
     # Q4
     # bad_data = [x_train[i] for i in delete_list]
     # bad_data_y = [y_train[i] for i in delete_list]
