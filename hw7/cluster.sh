@@ -1,0 +1,1 @@
+python hw7_conv_dnn.py $1 $2 $3
