@@ -4,3 +4,4 @@ wget 'https://github.com/chris94137/ML-model/releases/download/0.0.1/best_ensemb
 wget 'https://github.com/chris94137/ML-model/releases/download/0.0.1/best_ensemble5.h5'
 wget 'https://github.com/chris94137/ML-model/releases/download/0.0.1/best_0.69072ensemble4.h5'
 python hw8_train_kd.py $1 . --epoch=100
+python compress_kd.py best.h5 . 
