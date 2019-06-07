@@ -1,0 +1,1 @@
+python hw8_test_kd.py $1 weight_0.64502.npz $2
